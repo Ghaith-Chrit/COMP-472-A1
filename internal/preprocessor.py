@@ -11,7 +11,7 @@ def preprocess_data_manually(data: pd.DataFrame, target_col: str,) -> pd.DataFra
   for col in col_names:
     unique_values = data[col].unique()
     value_to_index = {value: index for index, value in enumerate(unique_values)}
-    data[col].map(value_to_index)
+    data[col] = data[col].map(value_to_index)
   
   return data
 

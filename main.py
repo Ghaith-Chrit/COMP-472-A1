@@ -35,8 +35,8 @@ abalone_df = preprocessor.preprocess_data(abalone_df, abalone_target_col_name, o
 # top_dt.train_and_test(penguin_df, penguin_target_col_name, penguin_top_dt_tree_file_name, penguin_output_file_name)
 # top_dt.train_and_test(abalone_df, abalone_target_col_name, abalone_top_dt_tree_file_name, abalone_output_file_name, graph_max_depth=6)
 
-base_mlp.train_and_test(penguin_df, penguin_target_col_name, penguin_output_file_name)
-base_mlp.train_and_test(abalone_df, abalone_target_col_name, abalone_output_file_name)
+# base_mlp.train_and_test(penguin_df, penguin_target_col_name, penguin_output_file_name)
+# base_mlp.train_and_test(abalone_df, abalone_target_col_name, abalone_output_file_name)
 
-# top_mlp.train_and_test(penguin_df, penguin_target_col_name, penguin_output_file_name)
-# top_mlp.train_and_test(abalone_df, abalone_target_col_name, abalone_output_file_name)
+top_mlp.train_and_test(penguin_df, penguin_target_col_name, penguin_output_file_name)
+top_mlp.train_and_test(abalone_df, abalone_target_col_name, abalone_output_file_name)
