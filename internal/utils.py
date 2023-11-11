@@ -50,19 +50,19 @@ def write_q6_ans(file_name, dict_to_print, type_classifier):
 			f.write("The Averages and variance over 5 iterations of Top-MLP: \n")
 
 		f.write("Average Accuracy: ")
-		f.write(dict_to_print["accuracy"])
+		f.write(str(dict_to_print["accuracy"]))
 		f.write("\nVariance of accuracy: ")
-		f.write(dict_to_print["var_accuracy"])
+		f.write(str(dict_to_print["var_accuracy"]))
 
 		f.write("\nAverage Macro average: ")
-		f.write(dict_to_print["macro"])
+		f.write(str(dict_to_print["macro"]))
 		f.write("\nVariance of Macro average: ")
-		f.write(dict_to_print["var_macro"])
+		f.write(str(dict_to_print["var_macro"]))
 
 		f.write("\nAverage Weighted average: ")
-		f.write(dict_to_print["weighted"])
+		f.write(str(dict_to_print["weighted"]))
 		f.write("\nVariance of Weighted average: ")
-		f.write(dict_to_print["var_weighted"])
+		f.write(str(dict_to_print["var_weighted"]))
 	
 
 
