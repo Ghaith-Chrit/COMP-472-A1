@@ -18,7 +18,7 @@ def create_percentage_plots(data: pd.DataFrame, output_name: str) -> None:
 
     for i, col in enumerate(data.columns):
         column_freq: pd.Series = data[col].value_counts(normalize=True).sort_index()
-        unique, counts = column_freq.index, column_freq.values
+        unique, counts = column_freq.index, column_freq.values*100
 
         axs[i].set_title(f'Percentage of instances \n in {col} feature')
         axs[i].set_xlabel(col.title())
