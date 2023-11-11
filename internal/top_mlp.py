@@ -11,10 +11,7 @@ def train(clf: GridSearchCV, trainingData: pd.DataFrame, trainingTarget: pd.Data
 def test(clf: GridSearchCV, testingData: pd.DataFrame) -> ndarray:
 	return clf.predict(testingData)
 
-def train_and_test(data: pd.DataFrame, target_col_name: str, result_file: str) -> dict:
-	X, y = data.drop([target_col_name], axis=1), data[target_col_name]
-	X_train, X_test, y_train, y_test = train_test_split(X, y)
-	class_names: list = y.unique().astype('str').tolist()
+def train_and_test(X_train, X_test, y_train, y_test, class_names: list, result_file: str) -> dict:
 	mlp: MLPClassifier = MLPClassifier(max_iter=700)
 	clf: GridSearchCV = GridSearchCV(mlp, param_grid={'activation': ['logistic','tanh','relu'], 'hidden_layer_sizes': [(30,50,),(10,20,10,)], 'solver': ['sgd','adam']})
 

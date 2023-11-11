@@ -12,10 +12,7 @@ def train(dtc: tree.DecisionTreeClassifier, trainingData: pd.DataFrame, training
 def test(dtc: tree.DecisionTreeClassifier, testingData: pd.DataFrame) -> ndarray:
 	return dtc.predict(testingData)
 
-def train_and_test(data: pd.DataFrame, target_col_name: str, graph_file: str, result_file: str, graph_max_depth: int | None = None) -> dict:
-	X, y = data.drop([target_col_name], axis=1), data[target_col_name]
-	X_train, X_test, y_train, y_test = train_test_split(X, y)
-	class_names: list = y.unique().astype('str').tolist()
+def train_and_test(X_train, X_test, y_train, y_test, class_names: list, graph_file: str, result_file: str, graph_max_depth: int | None = None) -> dict:
 	dtc: tree.DecisionTreeClassifier = tree.DecisionTreeClassifier()
 
 	train(dtc, X_train, y_train)

@@ -12,10 +12,7 @@ def train(clf: GridSearchCV, trainingData: pd.DataFrame, trainingTarget: pd.Data
 def test(clf: GridSearchCV, testingData: pd.DataFrame) -> ndarray:
 	return clf.predict(testingData)
 
-def train_and_test(data: pd.DataFrame, target_col_name: str, graph_file: str, result_file: str, graph_max_depth: int | None = None) -> dict:
-	X, y = data.drop([target_col_name], axis=1), data[target_col_name]
-	X_train, X_test, y_train, y_test = train_test_split(X, y)
-	class_names: list = y.unique().astype('str').tolist()
+def train_and_test(X_train, X_test, y_train, y_test, class_names: list, graph_file: str, result_file: str, graph_max_depth: int | None = None) -> dict:
 	dtc: tree.DecisionTreeClassifier = tree.DecisionTreeClassifier()
 	clf: GridSearchCV = GridSearchCV(dtc, param_grid={'criterion': ['gini','entropy'], 'max_depth': [5, 20, None], 'min_samples_split': [5,8,10]})
 	

@@ -13,10 +13,7 @@ def train(mlp: MLPClassifier, trainingData: pd.DataFrame, trainingTarget: pd.Dat
 def test(mlp: MLPClassifier, testingData: pd.DataFrame) -> ndarray:
 	return mlp.predict(testingData)
 
-def train_and_test(data: pd.DataFrame, target_col_name: str, result_file: str) -> dict:
-	X, y = data.drop([target_col_name], axis=1), data[target_col_name]
-	X_train, X_test, y_train, y_test = train_test_split(X, y)
-	class_names: list = y.unique().astype('str').tolist()
+def train_and_test(X_train, X_test, y_train, y_test, class_names: list, result_file: str) -> dict:
 	mlp: MLPClassifier = MLPClassifier(hidden_layer_sizes=(100,100,), activation="logistic", solver="sgd")
 
 	train(mlp, X_train, y_train)

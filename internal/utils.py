@@ -13,25 +13,25 @@ def format_dict_as_str(data: dict) -> str:
 
 def avg_calculations(data:dict)-> dict:
 	accuracy =[]
-	micro = []
+	macro = []
 	weighted =[]
 	i=0
 	while i<len(data):
 		accuracy.append(data[i]["accuracy"])
-		micro.append(data[i]["micro avg"]["f1-score"])
-		weighted.append(data[i]["micro avg"]["f1-score"])
+		macro.append(data[i]["macro avg"]["f1-score"])
+		weighted.append(data[i]["weighted avg"]["f1-score"])
 		i+=1
 	avg_acc = statistics.mean(accuracy)
 	var_acc = statistics.variance(accuracy)
-	avg_micro = statistics.mean(micro)
-	var_micro = statistics.variance(micro)
+	avg_macro = statistics.mean(macro)
+	var_macro = statistics.variance(macro)
 	avg_weighted = statistics.mean(weighted)
 	var_weighted = statistics.variance(weighted)
 	dict_avg_var = {
 		"accuracy": avg_acc,
 		"var_accuracy": var_acc,
-		"micro":avg_micro,
-		"var_micro": var_micro,
+		"macro":avg_macro,
+		"var_macro": var_macro,
 		"weighted": avg_weighted,
 		"var_weighted": var_weighted
 	}
@@ -54,14 +54,14 @@ def write_q6_ans(file_name, dict_to_print, type_classifier):
 		f.write("\nVariance of accuracy: ")
 		f.write(dict_to_print["var_accuracy"])
 
-		f.write("\nAverage Micro average: ")
-		f.write(dict_to_print["micro"])
-		f.write("\nVariance of Micro average: ")
-		f.write(dict_to_print["var_micro"])
+		f.write("\nAverage Macro average: ")
+		f.write(dict_to_print["macro"])
+		f.write("\nVariance of Macro average: ")
+		f.write(dict_to_print["var_macro"])
 
 		f.write("\nAverage Weighted average: ")
 		f.write(dict_to_print["weighted"])
-		f.write("\nVariance of Micro average: ")
+		f.write("\nVariance of Weighted average: ")
 		f.write(dict_to_print["var_weighted"])
 	
 
