@@ -83,7 +83,7 @@ top_mlp_abalone_answers=utils.avg_calculations(top_mlp_array_abalone)
 utils.write_q6_ans(penguin_output_file_name,base_dt_peng_answers,type_classifier="baseDT")
 utils.write_q6_ans(penguin_output_file_name,top_dt_peng_answers,type_classifier="topDT")
 utils.write_q6_ans(penguin_output_file_name,base_mlp_peng_answers,type_classifier="baseMLP")
-utils.write_q6_ans(penguin_output_file_name,top_mlp_abalone_answers,type_classifier="topMLP")
+utils.write_q6_ans(penguin_output_file_name,top_mlp_peng_answers,type_classifier="topMLP")
 
 utils.write_q6_ans(abalone_output_file_name,base_dt_abalone_answers,type_classifier="baseDT")
 utils.write_q6_ans(abalone_output_file_name,top_dt_abalone_answers,type_classifier="topDT")
