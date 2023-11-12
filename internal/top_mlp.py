@@ -1,7 +1,7 @@
 import pandas as pd
 from numpy import ndarray
 from .utils import format_confusion_matrix_as_str, format_dict_as_str
-from sklearn.model_selection import GridSearchCV, train_test_split
+from sklearn.model_selection import GridSearchCV
 from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import classification_report, confusion_matrix
 

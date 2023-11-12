@@ -3,7 +3,7 @@ from sklearn import tree
 from numpy import ndarray
 from .data_visualizations import visualize_graph
 from .utils import format_confusion_matrix_as_str, format_dict_as_str
-from sklearn.model_selection import GridSearchCV, train_test_split 
+from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import classification_report, confusion_matrix
 
 def train(clf: GridSearchCV, trainingData: pd.DataFrame, trainingTarget: pd.DataFrame) -> None:

@@ -27,7 +27,6 @@ def create_percentage_plots(data: pd.DataFrame, output_name: str) -> None:
         axs[i].scatter(unique, counts)
         
         axs[i].set_ylim(bottom=0)
-        axs[i].tick_params(axis='x', rotation=45)
         axs[i].yaxis.set_major_formatter(PercentFormatter())
 
         extent = axs[i].get_window_extent().transformed(fig.dpi_scale_trans.inverted())

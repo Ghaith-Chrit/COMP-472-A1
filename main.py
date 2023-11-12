@@ -1,8 +1,9 @@
 import os
 import pandas as pd
-from internal import data_visualizations, base_dt, top_dt, base_mlp, top_mlp, preprocessor,utils
 from sklearn.model_selection import train_test_split
+from internal import data_visualizations, base_dt, top_dt, base_mlp, top_mlp, preprocessor, utils
 
+# Setup Some Variables #
 penguin_dataset_path: str = os.path.join(os.path.dirname(__file__), "COMP472-A1-datasets", "penguins.csv")
 abalone_dataset_path: str = os.path.join(os.path.dirname(__file__), "COMP472-A1-datasets", "abalone.csv")
 
@@ -24,68 +25,57 @@ abalone_output_file_name: str = os.path.join("output", "abalone-performance.txt"
 penguin_df: pd.DataFrame = pd.read_csv(penguin_dataset_path, dtype={"species": str, "island": str, "culmen_length_mm": float, "culmen_depth_mm": float, "flipper_length_mm": float, "body_mass_g": float, "sex": str})
 abalone_df: pd.DataFrame = pd.read_csv(abalone_dataset_path, dtype={"Type": str, "LongestShell": float, "Diameter": float, "Height": float, "WholeWeight": float, "ShuckedWeight": float, "VisceraWeight": float, "ShellWeight": float, "Rings": int})
 
+# Visualize The Data #
 data_visualizations.create_percentage_plots(penguin_df, penguin_graphic_file_name)
 data_visualizations.create_percentage_plots(abalone_df, abalone_graphic_file_name)
 
+# Preproces The Data #
 penguin_df = preprocessor.preprocess_data(penguin_df, penguin_target_col_name, one_hot_vector=True)
 abalone_df = preprocessor.preprocess_data(abalone_df, abalone_target_col_name, one_hot_vector=True)
 
-#splitting data for penguin 
+# Split The Penguin Data #
 X, y = penguin_df.drop([penguin_target_col_name], axis=1), penguin_df[penguin_target_col_name]
 Xp_train, Xp_test, yp_train, yp_test = train_test_split(X, y)
 class_names_p: list = y.unique().astype('str').tolist()
 
-#splitting data for abalone
+# Split The Abalone Data #
 X, y = abalone_df.drop([abalone_target_col_name], axis=1), abalone_df[abalone_target_col_name]
 Xa_train, Xa_test, ya_train, ya_test = train_test_split(X, y)
 class_names_a: list = y.unique().astype('str').tolist()
 
-i=0
-base_dt_array_peng =[]
-base_dt_array_abalone =[]
-top_dt_array_peng =[]
-top_dt_array_abalone =[]
+# Run The Models #
+base_dt_array_peng = utils.run_model_times(model=base_dt.train_and_test, model_description="BaseDT (Penguin)", X_train=Xp_train, X_test=Xp_test, y_train=yp_train, y_test=yp_test, class_names=class_names_p, graph_file=penguin_base_dt_tree_file_name, result_file=penguin_output_file_name)
+base_dt_array_abalone = utils.run_model_times(model=base_dt.train_and_test, model_description="BaseDT (Abalone)", X_train=Xa_train, X_test=Xa_test, y_train=ya_train, y_test=ya_test, class_names=class_names_a, graph_file=abalone_base_dt_tree_file_name, result_file=abalone_output_file_name, graph_max_depth=6)
 
-base_mlp_array_peng =[]
-base_mlp_array_abalone =[]
-top_mlp_array_peng =[]
-top_mlp_array_abalone =[]
+top_dt_array_peng = utils.run_model_times(model=top_dt.train_and_test, model_description="TopDT (Penguin)", X_train=Xp_train, X_test=Xp_test, y_train=yp_train, y_test=yp_test, class_names=class_names_p, graph_file=penguin_top_dt_tree_file_name, result_file=penguin_output_file_name)
+top_dt_array_abalone = utils.run_model_times(model=top_dt.train_and_test, model_description="TopDT (Abalone)", X_train=Xa_train, X_test=Xa_test, y_train=ya_train, y_test=ya_test, class_names=class_names_a, graph_file=abalone_top_dt_tree_file_name, result_file=abalone_output_file_name, graph_max_depth=6)
 
-while i<5:
+base_mlp_array_peng = utils.run_model_times(model=base_mlp.train_and_test, model_description="BaseMLP (Penguin)", X_train=Xp_train, X_test=Xp_test, y_train=yp_train, y_test=yp_test, class_names=class_names_p, result_file=penguin_output_file_name)
+base_mlp_array_abalone = utils.run_model_times(model=base_mlp.train_and_test, model_description="BaseMLP (Abalone)", X_train=Xa_train, X_test=Xa_test, y_train=ya_train, y_test=ya_test, class_names=class_names_a, result_file=abalone_output_file_name)
 
-    base_dt_array_peng.append(base_dt.train_and_test(Xp_train, Xp_test, yp_train, yp_test, class_names_p, penguin_base_dt_tree_file_name, penguin_output_file_name))
-    base_dt_array_abalone.append(base_dt.train_and_test(Xa_train, Xa_test, ya_train, ya_test, class_names_a, abalone_base_dt_tree_file_name, abalone_output_file_name, graph_max_depth=6))
-    
-    top_dt_array_peng.append(top_dt.train_and_test(Xp_train, Xp_test, yp_train, yp_test , class_names_p, penguin_top_dt_tree_file_name, penguin_output_file_name))
-    top_dt_array_abalone.append(top_dt.train_and_test(Xa_train, Xa_test, ya_train, ya_test, class_names_a, abalone_top_dt_tree_file_name, abalone_output_file_name, graph_max_depth=6))
+top_mlp_array_peng = utils.run_model_times(model=top_mlp.train_and_test, model_description="TopMLP (Penguin)", X_train=Xp_train, X_test=Xp_test, y_train=yp_train, y_test=yp_test, class_names=class_names_p, result_file=penguin_output_file_name)
+top_mlp_array_abalone = utils.run_model_times(model=top_mlp.train_and_test, model_description="TopMLP (Abalone)", X_train=Xa_train, X_test=Xa_test, y_train=ya_train, y_test=ya_test, class_names=class_names_a, result_file=abalone_output_file_name)
 
-    base_mlp_array_peng.append(base_mlp.train_and_test(Xp_train, Xp_test, yp_train, yp_test , class_names_p, penguin_output_file_name))
-    base_mlp_array_abalone.append(base_mlp.train_and_test(Xa_train, Xa_test, ya_train, ya_test, class_names_a, abalone_output_file_name))
+# Calculate Average And Variance #
+base_dt_peng_answers = utils.calculate_average_and_variance(base_dt_array_peng)
+base_dt_abalone_answers = utils.calculate_average_and_variance(base_dt_array_abalone)
 
-    top_mlp_array_peng.append(top_mlp.train_and_test(Xp_train, Xp_test, yp_train, yp_test , class_names_p, penguin_output_file_name))
-    top_mlp_array_abalone.append(top_mlp.train_and_test(Xa_train, Xa_test, ya_train, ya_test, class_names_a, abalone_output_file_name))
+top_dt_peng_answers = utils.calculate_average_and_variance(top_dt_array_peng)
+top_dt_abalone_answers = utils.calculate_average_and_variance(top_dt_array_abalone)
 
-    i += 1
+base_mlp_peng_answers = utils.calculate_average_and_variance(base_mlp_array_peng)
+base_mlp_abalone_answers = utils.calculate_average_and_variance(base_mlp_array_abalone)
 
+top_mlp_peng_answers = utils.calculate_average_and_variance(top_mlp_array_peng)
+top_mlp_abalone_answers = utils.calculate_average_and_variance(top_mlp_array_abalone)
 
-base_dt_peng_answers = utils.avg_calculations(base_dt_array_peng)
-base_dt_abalone_answers=utils.avg_calculations(base_dt_array_abalone)
+# Save Results To A File #
+utils.write_average_and_variance_to_file(penguin_output_file_name, base_dt_peng_answers, type_classifier="BaseDT")
+utils.write_average_and_variance_to_file(penguin_output_file_name, top_dt_peng_answers, type_classifier="TopDT")
+utils.write_average_and_variance_to_file(penguin_output_file_name, base_mlp_peng_answers, type_classifier="BaseMLP")
+utils.write_average_and_variance_to_file(penguin_output_file_name, top_mlp_peng_answers, type_classifier="TopMLP")
 
-top_dt_peng_answers=utils.avg_calculations(top_dt_array_peng)
-top_dt_abalone_answers=utils.avg_calculations(top_dt_array_abalone)
-
-base_mlp_peng_answers = utils.avg_calculations(base_mlp_array_peng)
-base_mlp_abalone_answers=utils.avg_calculations(base_mlp_array_abalone)
-
-top_mlp_peng_answers=utils.avg_calculations(top_mlp_array_peng)
-top_mlp_abalone_answers=utils.avg_calculations(top_mlp_array_abalone)
-
-utils.write_q6_ans(penguin_output_file_name,base_dt_peng_answers,type_classifier="baseDT")
-utils.write_q6_ans(penguin_output_file_name,top_dt_peng_answers,type_classifier="topDT")
-utils.write_q6_ans(penguin_output_file_name,base_mlp_peng_answers,type_classifier="baseMLP")
-utils.write_q6_ans(penguin_output_file_name,top_mlp_peng_answers,type_classifier="topMLP")
-
-utils.write_q6_ans(abalone_output_file_name,base_dt_abalone_answers,type_classifier="baseDT")
-utils.write_q6_ans(abalone_output_file_name,top_dt_abalone_answers,type_classifier="topDT")
-utils.write_q6_ans(abalone_output_file_name,base_mlp_abalone_answers,type_classifier="baseMLP")
-utils.write_q6_ans(abalone_output_file_name,top_mlp_abalone_answers,type_classifier="topMLP")
+utils.write_average_and_variance_to_file(abalone_output_file_name, base_dt_abalone_answers, type_classifier="BaseDT")
+utils.write_average_and_variance_to_file(abalone_output_file_name, top_dt_abalone_answers, type_classifier="TopDT")
+utils.write_average_and_variance_to_file(abalone_output_file_name, base_mlp_abalone_answers, type_classifier="BaseMLP")
+utils.write_average_and_variance_to_file(abalone_output_file_name, top_mlp_abalone_answers, type_classifier="TopMLP")

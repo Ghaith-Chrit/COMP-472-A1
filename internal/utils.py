@@ -1,3 +1,4 @@
+from typing import Callable
 from numpy import ndarray
 import statistics
 
@@ -11,22 +12,31 @@ def format_confusion_matrix_as_str(confusion_matrix: ndarray, class_names: list)
 def format_dict_as_str(data: dict) -> str:
 	return"\n".join([f"- {key}: {value}" for key, value in data.items()]) + "\n"
 
-def avg_calculations(data:dict)-> dict:
-	accuracy =[]
+def run_model_times(model: Callable[..., dict], model_description: str, **kwargs) -> list[dict]:
+	results = []
+	for i in range(5):
+		print(f"Running {model_description}: Run number {i + 1}")
+		results.append(model(**kwargs))
+	print()
+	return results
+
+def calculate_average_and_variance(data: list[dict])-> dict:
+	accuracy = []
 	macro = []
-	weighted =[]
-	i=0
-	while i<len(data):
+	weighted = []
+
+	for i in range(len(data)):
 		accuracy.append(data[i]["accuracy"])
 		macro.append(data[i]["macro avg"]["f1-score"])
 		weighted.append(data[i]["weighted avg"]["f1-score"])
-		i+=1
+		
 	avg_acc = statistics.mean(accuracy)
 	var_acc = statistics.variance(accuracy)
 	avg_macro = statistics.mean(macro)
 	var_macro = statistics.variance(macro)
 	avg_weighted = statistics.mean(weighted)
 	var_weighted = statistics.variance(weighted)
+
 	dict_avg_var = {
 		"accuracy": avg_acc,
 		"var_accuracy": var_acc,
@@ -35,35 +45,32 @@ def avg_calculations(data:dict)-> dict:
 		"weighted": avg_weighted,
 		"var_weighted": var_weighted
 	}
+
 	return dict_avg_var
 
-def write_q6_ans(file_name, dict_to_print, type_classifier):
+def write_average_and_variance_to_file(file_name, dict_to_print, type_classifier):
 	with open(file_name, "a+") as f:
-		if type_classifier == "baseDT":
-			#Base-DT answers for question 6 appending to file
+		if type_classifier == "BaseDT":
 			f.write("The Averages and variance over 5 iterations of Base-DT: \n")
-		elif type_classifier == "topDT":
+		elif type_classifier == "TopDT":
 			f.write("The Averages and variance over 5 iterations of Top-DT: \n")
-		elif type_classifier == "baseMLP":
+		elif type_classifier == "BaseMLP":
 			f.write("The Averages and variance over 5 iterations of Base-MLP: \n")
-		elif type_classifier == "topMLP":
+		elif type_classifier == "TopMLP":
 			f.write("The Averages and variance over 5 iterations of Top-MLP: \n")
 
-		f.write("Average Accuracy: ")
+		f.write("- Average Accuracy: ")
 		f.write(str(dict_to_print["accuracy"]))
-		f.write("\nVariance of accuracy: ")
+		f.write("\n- Variance of accuracy: ")
 		f.write(str(dict_to_print["var_accuracy"]))
 
-		f.write("\nAverage Macro average: ")
+		f.write("\n- Average Macro average: ")
 		f.write(str(dict_to_print["macro"]))
-		f.write("\nVariance of Macro average: ")
+		f.write("\n- Variance of Macro average: ")
 		f.write(str(dict_to_print["var_macro"]))
 
-		f.write("\nAverage Weighted average: ")
+		f.write("\n- Average Weighted average: ")
 		f.write(str(dict_to_print["weighted"]))
-		f.write("\nVariance of Weighted average: ")
+		f.write("\n- Variance of Weighted average: ")
 		f.write(str(dict_to_print["var_weighted"]))
 		f.write("\n" + "-" * 60 + "\n")
-	
-
-

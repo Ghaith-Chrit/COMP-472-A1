@@ -3,7 +3,6 @@ from sklearn import tree
 from numpy import ndarray
 from .data_visualizations import visualize_graph
 from .utils import format_confusion_matrix_as_str
-from sklearn.model_selection import train_test_split 
 from sklearn.metrics import classification_report, confusion_matrix
 
 def train(dtc: tree.DecisionTreeClassifier, trainingData: pd.DataFrame, trainingTarget: pd.DataFrame) -> None:
