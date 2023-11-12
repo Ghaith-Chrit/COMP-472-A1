@@ -24,7 +24,11 @@ def create_percentage_plots(data: pd.DataFrame, output_name: str) -> None:
         axs[i].set_xlabel(col.title())
         axs[i].set_ylabel('Percentage of instances')
 
-        axs[i].scatter(unique, counts)
+        plot_as_bar_graph = unique.dtype.type is np.str_ or unique.dtype.type is np.object_
+        if plot_as_bar_graph:
+            axs[i].bar(unique, counts)
+        else:
+            axs[i].scatter(unique, counts)
         
         axs[i].set_ylim(bottom=0)
         axs[i].yaxis.set_major_formatter(PercentFormatter())
